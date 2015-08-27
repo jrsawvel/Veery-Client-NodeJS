@@ -1,0 +1,58 @@
+{{> header}}
+
+<!-- {{post_type}} -->
+
+<main>
+
+<article>
+
+<header>
+{{#if default_values.user_cookies.logged_in}}
+<div class="edit-link">
+<span class="greytext"><a href="/edit/{{slug}}">edit</a></span>
+</div>
+{{/if}}
+{{#if reading_time}}
+<div class="post-min-read">
+{{reading_time}} min
+</div>
+{{/if}}
+{{#if show_title}} 
+<hgroup>
+<h1 class="headingtext"><a href="/{{slug}}">{{title}}</a></h1> 
+<!-- <h2>sub title will be here</h2> -->
+</hgroup>
+{{/if}}
+</header>
+
+<section class="article-body">
+{{{html}}}
+</section> 
+
+<footer class="greytext">
+<p> 
+by <a href="/{{author_profile}}">{{author}}</a>
+ - {{word_count}} words
+{{#if reading_time}}
+ - {{reading_time}} min read
+{{/if}}
+<br />
+created: <time datetime="{{created_at}}">{{created_at}}</time>
+{{#if modified}}
+ - modified: <time datetime="{{updated_at}}">{{updated_at}}</time>
+{{/if}}
+ - <a title="Permalink" href="/{{slug}}">#</a>
+
+{{#if default_values.user_cookies.logged_in}}
+<br />
+ <a href="/delete/{{slug}}">delete</a>
+{{/if}}
+</p>
+</footer>
+
+</article>
+
+</main>
+
+{{> footer}}
+

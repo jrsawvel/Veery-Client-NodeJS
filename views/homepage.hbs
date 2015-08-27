@@ -1,0 +1,40 @@
+{{> header}}
+
+<main>
+
+{{#if default_values.user_cookies.logged_in}}
+
+<p>
+<form id="smallform" method="post" action="/createpost">
+<input type="hidden" name="post_location" value="notes_stream">
+<textarea id="microblogtextareabox" name="markup" rows="5" cols="50" wrap="virtual" autofocus></textarea>
+<br>
+<input class="submitbutton" type="submit" name="sb" value="Post">
+ &nbsp; &nbsp; &nbsp; &nbsp;  <span class="greytext"><a title="large textarea box for writing" href="/compose">W</a></span>
+ &nbsp; &nbsp; &nbsp; &nbsp;  <span class="greytext"><a title="javascript editor" href="/splitscreen">[|]</a></span>
+</form>
+</p>
+
+{{else}}
+<!--
+<center>
+<span class="site-description greytext"><a href="/info">{{default_values.site_description}}</a></span>
+</center>
+-->
+
+{{/if}}
+
+{{> incstream}}
+
+</main>
+
+{{#if default_values.user_cookies.logged_in}}
+<br />
+<p style="text-align:center">
+ <span class="greytext"><a title="logout" href="/logout">LO</a></span>
+ &nbsp; &nbsp; &nbsp; &nbsp;  <span class="greytext"><a title="show deleted posts" href="/deleted">DEL</a></span>
+ &nbsp; &nbsp; &nbsp; &nbsp;  <span class="greytext"><a title="user settings" href="/settings">U</a></span>
+</p>
+{{/if}}
+
+{{> footer}}

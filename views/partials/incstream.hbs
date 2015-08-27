@@ -1,0 +1,35 @@
+{{#each stream}}
+<article>
+<p>
+<section class="stream-content">
+<!-- {{this.post_type}} -->
+
+{{#if this.show_title}}
+<span class="streamtitle"><a href="/{{this.slug}}">{{this.title}}</a></span> -  
+{{/if}}
+
+{{{this.text_intro}}}
+
+{{#if this.more_text_exists}}
+<a href="/{{this.slug}}"><strong>more&gt;&gt;</strong></a>
+{{/if}}
+
+{{#if this.reading_time}}
+<small>{{this.reading_time}} min read</small>
+{{/if}}
+
+<br />
+</section>
+<span class="greytext"><a title="by {{this.author}}" href="/{{this.slug}}"><time datetime="{{this.formatted_updated_at}}">{{this.formatted_updated_at}}</time></a> &nbsp; &nbsp; {{{this.tag_list}}}</span>
+<!-- {{this.updated_at}} -->
+</p>
+</article>
+{{/each}}
+
+{{#if not_last_page}}
+<span class="olderlink"><a href="{{next_page_url}}">Older &gt;&gt;</a></span>
+{{/if}}
+{{#if not_page_one}}
+<a href="{{previous_page_url}}">&lt;&lt; Newer</a>
+{{/if}}
+
