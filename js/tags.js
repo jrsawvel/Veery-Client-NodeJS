@@ -1,4 +1,6 @@
 var http        = require('http');
+var dateFormat = require('dateformat');
+
 var PageGlobals = require('./pageglobals');
 
 var globals         = new PageGlobals();
@@ -14,8 +16,40 @@ var options = {
 };
 
 
+function display_rss (res, posts, rss_description) {
+// date format for rss: Fri, 18 Sep 2015 16:24:15 GMT
+    var now = new Date();
+
+//    global_defaults.datetime = myDate.format('D, j M Y H:i:s') + " GMT";
+
+    global_defaults.datetime = dateFormat(now, "ddd, dd mmm yyyy HH:MM:ss") + ' GMT';
+
+    posts.forEach(function(entry) {
+        var d = dateFormat(entry.updated_at, "ddd, dd mmm yyyy HH:MM:ss");
+        entry.updated_at = d + ' GMT'; 
+    });
+    
+    var data = {
+        stream:           posts,
+        rss_description:  rss_description,
+        default_values:   global_defaults
+    };
+    res.set('Content-Type', 'text/xml');
+    res.render('rss', data);
+}
+
 function show_stream (template, res, data) {
     res.render(template, data);
+}
+
+function show_error(res, user_msg, system_msg) {
+    var data = {
+        pagetitle: 'Error',
+        user_message:   user_msg,
+        system_message: system_msg,
+        default_values: globals.getvalues(),
+    };  
+    res.render('error', data);
 }
 
 
@@ -23,6 +57,12 @@ var Tags = {
 
     'search': function (req, res) {
         var uc = user_cookies.getvalues(req);
+
+        var doing_rss = 0;
+
+        if ( req.params[1] && req.params[1] === 'rss' ) {
+            doing_rss = 1;
+        } 
 
         var page_num = 1;
         options.path = global_defaults.api_uri + "/searches/tag";
@@ -55,6 +95,10 @@ var Tags = {
               if ( getres.statusCode < 300 ) {
                 var next_page_num = page_num + 1;
                 var prev_page_num = page_num - 1;
+
+                if ( doing_rss ) {
+                    display_rss(res, obj.posts, 'Recent posts tagged with ' + tagname);
+                }  
 
                 obj.posts.forEach(function(entry) {
                     if ( entry.post_type === "article" ) {

@@ -1,4 +1,5 @@
 var http    = require('http');
+var Memcached = require('memcached');
 
 var PageGlobals = require('./pageglobals');
 var globals     = new PageGlobals();
@@ -13,6 +14,36 @@ var options = {
   port: global_defaults.api_port,
   path: ''
 };
+
+
+function cache_html (html, slug) {
+
+    var prefix = global_defaults.memcached_prefix;
+    var port   = global_defaults.memcached_port;
+    
+    var key = prefix + '-' + slug;
+
+
+    var memcached = new Memcached('localhost:' + port);
+    var lifetime = 86400; //24hrs
+
+    html = html + '<!-- memcached via nodejs client -->';
+
+    // for some reason, this memcached client munges the data going into the memcached server
+    // by doing something goofy with the newline chars, maybe escaping them. i don't know.
+    // but once pulled from cache by nginx, the backslash character appears throughout an html page in the browser.
+    // using this regex to remove newlines before caching the page.
+    html = html.replace(/\r?\n|\r/g, ' ');
+
+    memcached.set(key, html, lifetime, function( err, result ){
+        if( err ) console.error( err );
+//        console.dir('cache result = ' + result );
+    });
+
+    // memcached.get(key, function( err, result ){
+        // if( err ) console.error( err );
+    // });
+}
 
 
 var Post = {
@@ -57,7 +88,19 @@ var Post = {
                     modified:           post_obj.created_at != obj.updated_at ? 1 : 0,
                     default_values:     default_values
                 };
-                res.render('post', data);
+
+
+// display json of post to browser
+//                res.send(data);
+//                res.render('post', data);
+
+                  res.render('post', data, function(err, html) {
+                      if ( !uc.logged_in && global_defaults.write_html_to_memcached ) {
+                          cache_html(html, post_obj.slug);
+                      }
+                      res.send(html);
+                  });
+    
               } else {
                 var data = {
                     pagetitle:      'Error',

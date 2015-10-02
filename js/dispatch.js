@@ -12,6 +12,9 @@ var express        = require('express'),
     settings       = require('./settings'),
     post           = require('./showpost'),
     changestatus   = require('./changestatus'),
+    newpost        = require('./newpost'),
+    editpost       = require('./editpost'),
+
 
 app = express();
 
@@ -33,7 +36,7 @@ app.get('/login', login.form);
 app.post('/dologin', login.login);
 app.get(/^\/nopwdlogin\/(.*)/, login.nopwdlogin);
 app.get('/', stream.stream);
-app.get(/^\/stream(?:\/(.*))?$/, stream.stream);
+app.get(/^\/stream(?:\/(.*))?$/, stream.stream); // for rss feed
 app.get('/deleted', stream.deleted);
 app.get('/logout', logout.logout);
 app.get(/^\/delete\/([0-9a-zA-Z_\-]+)?$/,  changestatus.delete);
@@ -42,10 +45,15 @@ app.get('/settings', settings.read);
 app.post('/updatesettings', settings.update);
 app.get(/^\/tag\/([0-9a-zA-Z_\-+]+)$/, tags.search);
 app.get(/^\/tag\/([0-9a-zA-Z_\-+]+)\/([0-9]*)$/, tags.search);
+app.get(/^\/tag\/([0-9a-zA-Z_\-+]+)\/(.*)$/, tags.search); // for rss feed
 app.get(/^\/search\/([^\/]+)$/, search.string);
-app.get(/^\/search\/(.+)\/([0-9]*)$/, search.string);
+app.get(/^\/search\/(.+)\/(.*)$/, search.string);
 app.post('/search', search.string);
-
+app.post('/createpost', newpost.create);
+app.get('/compose', newpost.newpostform);
+app.get('/splitscreen', newpost.splitscreen);
+app.get(/^\/edit\/([0-9a-zA-Z_\-]+)?$/, editpost.getpost);
+app.post('/updatepost', editpost.update);
 app.get(/^\/([0-9a-zA-Z_\-]+)?$/,       post.show);
 
 app.use(errors.error404);

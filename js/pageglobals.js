@@ -1,12 +1,18 @@
-require('../modules/date.format');
+// require('../modules/date.format');
+
+var dateFormat = require('dateformat');
+
 
 // constructor
 var PageGlobals = function() {
 };
 
 function _get_date_time () {
-    var myDate = new Date();
-    return myDate.format('D, M j, Y - g:i a') + " UTC";
+//    var myDate = new Date();
+//    return myDate.format('D, M j, Y - g:i a') + " UTC";
+
+    var now = new Date();
+    return dateFormat(now, "ddd, mmm dd, yyyy - h:MM TT") + ' UTC';
 }
 
 PageGlobals.prototype.getvalues = function() {
@@ -24,6 +30,10 @@ PageGlobals.prototype.getvalues = function() {
         css_dir_url:       'http://veeryclientnodejs.soupmode.com/css',
         author_name:       'JohnR',
         author_profile:    'profile',
+        memcached_port:    11211,
+        write_html_to_memcached: 1,
+        domain_name:       'veeryclientnodejs.soupmode.com',
+        memcached_prefix:  'veery-client',
     };
 
     return page_values;

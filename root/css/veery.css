@@ -80,17 +80,20 @@ header {
 }
 
 header a {
-    color: #666666;
+    /* color: #666666; */
+    color: #01579B; 
     text-decoration: none;
 }
 
 header a:visited {
-    color: #666666;
+    /* color: #666666; */
+    color: #01579B; 
     text-decoration: none;
 }
 
 header a:hover {
-    color: #666666;
+    /* color: #666666; */
+    color: #01579B; 
     text-decoration: underline;
 }
 
@@ -192,7 +195,7 @@ h1 {
 */
     margin: 0;
     font-size: 1.6em;
-    text-align: center;
+/*    text-align: center; */
 }
 
 h2 {
@@ -294,17 +297,19 @@ h2, h3, h4 {
 }
 
 .greytext a {
-    color: #888888;
+   /* color: #888888; */
+    color: #01579B; 
     text-decoration: none;
 }
 
 .greytext a:visited {
-    color: #888888;
+    /* color: #888888; */
+    color: #01579B; 
     text-decoration: none;
 }
 
 .greytext a:hover {
-    color: #000000; 
+    /* color: #000000; */
     text-decoration: underline;
 }
 

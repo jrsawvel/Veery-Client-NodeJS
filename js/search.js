@@ -1,4 +1,6 @@
 var http        = require('http');
+var dateFormat = require('dateformat');
+
 var PageGlobals = require('./pageglobals');
 
 var globals         = new PageGlobals();
@@ -12,6 +14,28 @@ var options = {
   port: global_defaults.api_port,
   path: ''
 };
+
+function display_rss (res, posts, rss_description) {
+// date format for rss: Fri, 18 Sep 2015 16:24:15 GMT
+    var now = new Date();
+
+//    global_defaults.datetime = myDate.format('D, j M Y H:i:s') + " GMT";
+
+    global_defaults.datetime = dateFormat(now, "ddd, dd mmm yyyy HH:MM:ss") + ' GMT';
+
+    posts.forEach(function(entry) {
+        var d = dateFormat(entry.updated_at, "ddd, dd mmm yyyy HH:MM:ss");
+        entry.updated_at = d + ' GMT'; 
+    });
+    
+    var data = {
+        stream:           posts,
+        rss_description:  rss_description,
+        default_values:   global_defaults
+    };
+    res.set('Content-Type', 'text/xml');
+    res.render('rss', data);
+}
 
 function show_stream (template, res, data) {
     res.render(template, data);
@@ -43,6 +67,12 @@ var Search = {
     'string': function (req, res) {
 
         var uc = user_cookies.getvalues(req);
+
+        var doing_rss = 0;
+
+        if ( req.params[1] && req.params[1] === 'rss' ) {
+            doing_rss = 1;
+        } 
 
         var page_num = 1;
         options.path = global_defaults.api_uri + "/searches/string";
@@ -93,6 +123,10 @@ var Search = {
               if ( getres.statusCode < 300 ) {
                 var next_page_num = page_num + 1;
                 var prev_page_num = page_num - 1;
+
+                if ( doing_rss ) {
+                    display_rss(res, obj.posts, 'Recent posts for search string ' + search_string);
+                }  
 
                 obj.posts.forEach(function(entry) {
                     if ( entry.post_type === "article" ) {

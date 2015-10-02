@@ -1,0 +1,39 @@
+{{#if errorexists }}
+<p>
+<h2>Article Input Error</strong></h2>
+{{errormessage}}
+</p>
+{{/if}}
+
+{{#if previewingpost }}
+<p>
+Previewing post ...
+</p>
+
+<article>
+<section class="article-body">
+<h1>{{{preview_title}}}</h1>
+{{{html}}}
+</section>
+</article>
+{{/if}}
+
+<form id="veeryform" method="post" action="/createpost">
+<input type="hidden" name="post_location" value="text_area"> 
+
+<p>
+<textarea id="textareaboxpost" name="markup" rows="15" cols="60">{{markup}}</textarea>
+</p>
+
+<div style="float:right">
+<span class="greytext"><a href="/splitscreen"><small>[ | ]</small></a></span>
+</div>
+
+<p>
+<input class="submitbutton" type="submit" name="sb" value="Preview">
+ &nbsp; &nbsp; &nbsp; &nbsp; 
+<input class="submitbutton" type="submit" name="sb" value="Post">
+</p>
+
+</form>
+

@@ -1,0 +1,50 @@
+{{> header}}
+
+<main>
+
+{{#if error_exists }}
+<p>
+<h2>Post Input Error</strong></h2>
+{{error_message}}
+</p>
+{{/if}}
+
+<p>
+<strong>Editing :</strong> <a href="/{{slug}}">{{title}}</a>
+</p>
+
+{{#if previewingpost }}
+<p>
+Previewing post ...
+</p>
+
+<article>
+<section class="article-body">
+{{{html}}}
+</section>
+</article>
+{{/if}}
+
+<p>
+<form method="post" action="/updatepost">
+<input type="hidden" name="post_id" value="{{slug}}"> 
+<input type="hidden" name="rev"     value="{{rev}}"> 
+
+<textarea id="textareaboxpost" name="markup" rows="25" cols="80" >{{markup}}</textarea>
+</p>
+
+<div style="float:right">
+<span class="greytext"><a href="/splitscreenedit/{{slug}}"><small>[ | ]</small></a></span>
+</div>
+
+<p>
+<input class="submitbutton" type="submit" name="sb" value="Preview">
+ &nbsp; &nbsp; &nbsp; &nbsp; 
+<input class="submitbutton" type="submit" name="sb" value="Update">
+</p>
+
+</form>
+
+</main>
+
+{{> footer}}
