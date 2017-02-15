@@ -17,7 +17,8 @@ var options = {
 function _change_post_status (req, res, post_action, post_id) {
     var uc = user_cookies.getvalues(req);
 
-    options.path = global_defaults.api_uri + "/posts/" + post_id + "/?action=" + post_action;
+    // options.path = global_defaults.api_uri + "/posts/" + post_id + "/?action=" + post_action;
+    options.path = global_defaults.nodejs_api_uri + "/posts/" + post_id + "/?action=" + post_action;
     options.path = options.path + '&author=' + uc.author_name + '&session_id=' + uc.session_id;
 
 

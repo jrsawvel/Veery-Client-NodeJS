@@ -34,7 +34,8 @@ var EditPost = {
     'getpost': function (req, res) {
         var uc = user_cookies.getvalues(req);
 
-        options.path = global_defaults.api_uri + "/posts/" + req.params[0];
+        // options.path = global_defaults.api_uri + "/posts/" + req.params[0];
+        options.path = global_defaults.nodejs_api_uri + "/posts/" + req.params[0];
 
         options.path = options.path + '/?author=' + uc.author_name + '&session_id=' + uc.session_id + '&text=markup';
 

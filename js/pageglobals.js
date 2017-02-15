@@ -25,6 +25,7 @@ PageGlobals.prototype.getvalues = function() {
         host:              'veeryapiperl.soupmode.com',
         api_port:          80,
         api_uri:           'http://veeryapiperl.soupmode.com/api',
+        nodejs_api_uri:    'http://veeryapinodejs.soupmode.com/api',
         site_description:  'Node.js Veery Client',
         cookie_prefix:     'nodejsveery',
         css_dir_url:       'http://veeryclientnodejs.soupmode.com/css',

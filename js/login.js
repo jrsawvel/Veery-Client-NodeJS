@@ -50,7 +50,8 @@ var Login = {
             };
 
             options.method = 'POST';
-            options.path = global_defaults.api_uri + "/users/login";
+            // options.path = global_defaults.api_uri + "/users/login";
+            options.path = global_defaults.nodejs_api_uri + "/users/login";
             options.headers = headers;
 
             var h_req = http.request(options, function(h_res) {
@@ -93,7 +94,8 @@ var Login = {
 
         options.headers = '';
         options.method = 'GET';
-        options.path = global_defaults.api_uri + '/users/login/?rev=' + rev;
+        // options.path = global_defaults.api_uri + '/users/login/?rev=' + rev;
+        options.path = global_defaults.nodejs_api_uri + '/users/login/?rev=' + rev;
 
         http.get(options, function(h_res) {
             var response_string = '';

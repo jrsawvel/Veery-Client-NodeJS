@@ -52,7 +52,9 @@ var Post = {
 
         var uc = user_cookies.getvalues(req);
 
-        options.path = global_defaults.api_uri + "/posts/" + req.params[0];
+        // options.path = global_defaults.api_uri + "/posts/" + req.params[0];
+        // switched to this on 27jan2017
+         options.path = global_defaults.nodejs_api_uri + "/posts/" + req.params[0];
 
         options.path = options.path + '/?author=' + uc.author_name + '&session_id=' + uc.session_id + '&text=html';
 
@@ -64,8 +66,9 @@ var Post = {
 
 
             getres.on('end', function() {
-                var obj = JSON.parse(get_data);
 
+             if ( getres.statusCode < 500 ) {
+                var obj = JSON.parse(get_data);
                 var default_values = globals.getvalues();
                 default_values.user_cookies = uc;
 
@@ -109,10 +112,25 @@ var Post = {
                     default_values: default_values
                 };  
                 res.render('error', data);
-              }
-            });
+              } // close if else for status code < 300
+             } else {
+                var data = {
+                    pagetitle:      'Error',
+                    user_message:   'API Server Problem',
+                    system_message: 'Status Code = ' + getres.statusCode,
+                    default_values: globals.getvalues()
+                };  
+                res.render('error', data);
+             }  // close if else for status code < 500
+            }); // close getres on end
         }).on('error', function(e) {
-            getres.send('Could not retrieve post.');
+                var data = {
+                    pagetitle:      'Error',
+                    user_message:   'API Server Problem',
+                    system_message: 'Status Code = ' + getres.statusCode,
+                    default_values: globals.getvalues()
+                };  
+                res.render('error', data);
         });
     }
 };
