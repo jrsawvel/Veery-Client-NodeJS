@@ -39,7 +39,8 @@ var Settings = {
 
     'read': function (req, res) {
         var uc = user_cookies.getvalues(req);
-        options.path = global_defaults.api_uri + "/users/" + uc.author_name;
+        // options.path = global_defaults.api_uri + "/users/" + uc.author_name;
+        options.path = global_defaults.nodejs_api_uri + "/users/" + uc.author_name;
         options.path = options.path + '/?author=' + uc.author_name + '&session_id=' + uc.session_id;
         options.headers = '';
         options.method = 'GET';
@@ -113,7 +114,8 @@ var Settings = {
             };
 
             options.method = 'PUT';
-            options.path = global_defaults.api_uri + "/users";
+            // options.path = global_defaults.api_uri + "/users";
+            options.path = global_defaults.nodejs_api_uri + "/users";
             options.headers = headers;
 
             var h_req = http.request(options, function(h_res) {
