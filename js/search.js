@@ -75,7 +75,8 @@ var Search = {
         } 
 
         var page_num = 1;
-        options.path = global_defaults.api_uri + "/searches/string";
+        // options.path = global_defaults.api_uri + "/searches/string";
+        options.path = global_defaults.nodejs_api_uri + "/searches/string";
 
         var search_string = "";
         // GET request
@@ -143,7 +144,8 @@ var Search = {
                 });
 
                 var data = {
-                    pagetitle:          'Search Results for:' + search_string,
+                    pagetitle:          'Search sesults for ' + search_string,
+                    search_title_string: 'Search results for',
                     search_results:     true,
                     search_type:        'search',
                     string_search:      true,

@@ -54,7 +54,12 @@ var Stream = {
         } 
 
         var page_num = 1;
-        options.path = global_defaults.api_uri + "/posts";
+        // perl:
+        // options.path = global_defaults.api_uri + "/posts";
+
+        // nodejs:
+        options.path = global_defaults.nodejs_api_uri + "/posts";
+
         if ( req.params[0] && !isNaN(req.params[0]) ) {
             page_num = req.params[0] > 0 ? parseInt(req.params[0]) : 1;
             options.path = options.path + "/?page=" + page_num;

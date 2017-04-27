@@ -3,6 +3,8 @@ var querystring = require('querystring');
 
 var Entities = require('html-entities').XmlEntities;
 
+var cache = require('./cache');
+
 var PageGlobals = require('./pageglobals');
 var globals         = new PageGlobals();
 var global_defaults = globals.getvalues();
@@ -153,7 +155,8 @@ var NewPost = {
 
                     if ( postres.statusCode < 300 ) {
                         if ( submit_type == "Post" ) {
-                            // CacheHtml::create_and_cache_page($json->{'post_id'}); 
+                            // cache.cache_html(obj.html, obj.post_id); 
+
                             if ( post_location == "notes_stream" )  {
                                 res.redirect('back');
                             } else {                        

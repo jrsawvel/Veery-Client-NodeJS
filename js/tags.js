@@ -65,7 +65,8 @@ var Tags = {
         } 
 
         var page_num = 1;
-        options.path = global_defaults.api_uri + "/searches/tag";
+        // options.path = global_defaults.api_uri + "/searches/tag";
+        options.path = global_defaults.nodejs_api_uri + "/searches/tag";
 
         var tagname = "";
         if ( req.params[0] ) {
@@ -115,7 +116,8 @@ var Tags = {
                 });
 
                 var data = {
-                    pagetitle:          'Tag Search Results',
+                    pagetitle:          'Tag search sesults for ' + tagname,
+                    search_title_string: 'Tag search results for',
                     search_results:     true,
                     search_type:        'tag',
                     search_uri_string:  tagname,
